@@ -1,0 +1,157 @@
+<%- include("partials/headder.ejs") %>
+
+
+<!-- Page Title -->
+  <header>
+    <h1>Uluberia Government Polytechnic</h1>
+    <p>Scholarship Checker</p>
+  </header>
+
+  <!-- Form Card -->
+  <div class="card">
+    <h2>Scholarship Eligibility Form</h2>
+
+    <label for="name">Your Name:</label>
+    <input type="text" id="name">
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob">
+
+    <label for="email">Email Address:</label>
+    <input type="email" id="email">
+
+    <label for="admission">Admission Type:</label>
+    <select id="admission">
+      <option value="1st">1st Year Admission</option>
+      <option value="lateral">Lateral Entry</option>
+    </select>
+
+    <label for="gender">Gender:</label>
+    <select id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <label for="religion">Religion:</label>
+    <select id="religion">
+      <option value="hindu">Hindu</option>
+      <option value="muslim">Muslim</option>
+      <option value="christian">Christian</option>
+      <option value="buddhist">Buddhist</option>
+      <option value="jain">Jain</option>
+    </select>
+
+    <label for="category">Category:</label>
+    <select id="category">
+      <option value="gen">General</option>
+      <option value="sc">SC</option>
+      <option value="st">ST</option>
+      <option value="obc">OBC</option>
+    </select>
+
+    <label for="marks10">10th Marks:</label>
+    <select id="marks10">
+      <option value="80-100">80-100%</option>
+      <option value="60-79">60-79%</option>
+      <option value="50-59">50-59%</option>
+      <option value="below50">Below 50%</option>
+    </select>
+
+    <label for="marks12">12th Marks:</label>
+    <select id="marks12">
+      <option value="80-100">80-100%</option>
+      <option value="60-79">60-79%</option>
+      <option value="50-59">50-59%</option>
+      <option value="below50">Below 50%</option>
+    </select>
+
+    <label for="passyear10">Year of Passing 10th:</label>
+    <select id="passyear10">
+      <option value="2025">2025</option>
+      <option value="2024">2024</option>
+      <option value="2023">2023</option>
+      <option value="2022">2022</option>
+      <option value="before2022">Before 2022</option>
+    </select>
+
+    <button onclick="checkScholarship()">Check Eligibility</button>
+
+    <div id="result"></div>
+    <div class="documents" id="documents"></div>
+  </div>
+
+  <!-- Footer -->
+  
+  <!-- Script -->
+ <script>
+  function checkScholarship() {
+    const admission = document.getElementById('admission').value;
+    const gender = document.getElementById('gender').value;
+    const religion = document.getElementById('religion').value;
+    const category = document.getElementById('category').value;
+    const marks10 = document.getElementById('marks10').value;
+    const marks12 = document.getElementById('marks12').value;
+    const passyear10 = document.getElementById('passyear10').value;
+    const result = document.getElementById('result');
+    const documents = document.getElementById('documents');
+
+    let scholarship = "No suitable scholarship.";
+    let docList = "";
+
+    if (passyear10 === "before2022") {
+      result.textContent = `Most suitable scholarship: ${scholarship}`;
+      documents.textContent = "";
+      return;
+    }
+
+    if (admission === "lateral") {
+      if (marks12 === "80-100" || marks12 === "60-79") {
+        scholarship = "SVMCM (Swami Vivekananda Merit-cum-Means Scholarship)";
+        docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
+      } else if (marks12 === "50-59") {
+        if (religion !== "hindu") {
+          scholarship = "Aikyashree";
+          docList = "1) Bank account details<br>2) 10th marksheet";
+        } else if (["sc", "st", "obc"].includes(category)) {
+          scholarship = "OASIS Scholarship";
+          docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
+        }
+      }
+    } else if (admission === "1st") {
+      if (gender === "female") {
+        if (marks10 === "80-100" || marks12 === "80-100") {
+          scholarship = "NSP-Pragati";
+        } else if (marks10 === "60-79") {
+          scholarship = "SVMCM - With Year Gap Certificate";
+          docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
+        } else if (marks10 === "50-59") {
+          if (religion !== "hindu") {
+            scholarship = "Aikyashree";
+            docList = "1) Bank account details<br>2) 10th marksheet";
+          } else if (["sc", "st", "obc"].includes(category)) {
+            scholarship = "OASIS Scholarship";
+            docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
+          }
+        }
+      } else if (gender === "male") {
+        if (["60-79", "80-100"].includes(marks10)) {
+          scholarship = "SVMCM - With Year Gap Certificate";
+          docList = "1) 10th marksheet<br>2) 12th marksheet (optional)<br>3) College admission receipt<br>4) BDO income certificate<br>5) Year gap certificate (if needed)";
+        } else if (marks10 === "50-59") {
+          if (religion !== "hindu") {
+            scholarship = "Aikyashree";
+            docList = "1) Bank account details<br>2) 10th marksheet";
+          } else if (["sc", "st", "obc"].includes(category)) {
+            scholarship = "OASIS Scholarship";
+            docList = "1) 10th marksheet<br>2) College admission receipt<br>3) BDO income certificate<br>4) Residential proof - Aadhar card";
+          }
+        }
+      }
+    }
+
+    result.textContent = `Most suitable scholarship: ${scholarship}`;
+    documents.innerHTML = docList ? `<br><strong>Required Documents:</strong><br>${docList}` : "";
+  }
+</script>
+
+<%- include("partials/footer.ejs") %>

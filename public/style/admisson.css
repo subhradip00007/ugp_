@@ -1,0 +1,32 @@
+.admission-card{
+  background:#fff;
+  max-width:900px;
+  margin:2rem auto;
+  padding:2rem;
+  border-radius:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+.admission-card h2{
+  margin-bottom:1rem;
+  color:#009e60;
+}
+.admission-card h3{
+  margin:1.5rem 0 .6rem;
+  color:#00784a;
+}
+.dates span{font-weight:600;}
+.dates li{margin:.3rem 0;}
+
+.cta{
+  margin:1.2rem 0;
+}
+.cta a{
+  display:inline-block;
+  background:#009e60;
+  color:#fff;
+  padding:.6rem 1.2rem;
+  border-radius:4px;
+  text-decoration:none;
+  transition:.3s;
+}
+.cta a:hover{background:#00784a;}
